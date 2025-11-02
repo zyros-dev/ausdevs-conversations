@@ -1,0 +1,70 @@
+.filter-panel {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.filter-panel h2 {
+  color: #000000;
+  margin-top: 0;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-group label {
+  color: #333333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.filter-group :global(.ant-select) {
+  background-color: #ffffff;
+  border-color: #d0d0d0;
+}
+
+.filter-group :global(.ant-select-selector) {
+  background-color: #ffffff !important;
+  border-color: #d0d0d0 !important;
+  color: #333333;
+}
+
+.filter-group :global(.ant-select-arrow) {
+  color: #999999;
+}
+
+.filter-group :global(.ant-input) {
+  background-color: #ffffff;
+  border-color: #d0d0d0;
+  color: #333333;
+}
+
+.filter-group :global(.ant-input::placeholder) {
+  color: #999999;
+}
+
+.filter-group :global(.ant-slider-track) {
+  background-color: #1890ff;
+}
+
+.filter-group :global(.ant-slider-handle) {
+  border-color: #1890ff;
+  background-color: #1890ff;
+}
+
+.filter-group :global(.ant-slider-rail) {
+  background-color: #e0e0e0;
+}

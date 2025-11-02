@@ -1,0 +1,65 @@
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Dev/Test files
+test_*.py
+.pytest_cache/
+.coverage
+
+# Build artifacts (keep only what's needed)
+display/frontend/node_modules/
+display/frontend/dist/
+display/backend/__pycache__/
+
+# Misc
+.env
+.claude/
+server.log
+*.db  # Don't ignore - we'll include it explicitly
+.dockerignore
+Dockerfile
+
+# Discord exports (large files we don't need)
+ausdevs_again/
+output/
+
+# Other Python/visualization files (not needed at runtime)
+feature_engineering.py
+build_database.py
+compute_data.py
+process_channel.py
+run.py
+gradio_visualization.py
+streamlit_visualization.py
+test_embed_direct.py
+test_embed_response.py
