@@ -25,6 +25,10 @@ RUN npx vite build
 # Stage 2 - Runtime with Python/Flask
 FROM python:3.13-slim
 
+# Build argument to invalidate cache on each build
+ARG BUILD_DATE=0
+RUN echo "Build date: ${BUILD_DATE}"
+
 WORKDIR /app
 
 # Install system dependencies
@@ -39,8 +43,8 @@ RUN pip install --no-cache-dir -r display/backend/requirements.txt
 # Copy backend code
 COPY display/backend/backend.py ./display/backend/
 
-# Copy SQLite database
-COPY conversation_data.db ./display/backend/
+# Copy SQLite database (with pre-computed cache)
+COPY display/backend/conversation_data.db ./display/backend/
 
 # Copy built frontend from Stage 1
 COPY --from=frontend-builder /app/display/frontend/dist ./display/frontend/dist

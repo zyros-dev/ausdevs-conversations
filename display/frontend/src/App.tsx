@@ -8,7 +8,8 @@ import { ConversationDisplay } from './components/ConversationDisplay';
 import type { FilterOptions, FilterState, Chunk, ConversationDetail } from './types';
 import './App.css';
 
-const API_BASE = 'http://localhost:5000/api';
+// Use relative path so it works both locally (localhost:5000) and in production (zyros.dev/ausdevs_conversations)
+const API_BASE = './api';
 
 function App() {
   // Initialize sidebar based on screen width

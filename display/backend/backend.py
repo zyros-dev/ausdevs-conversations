@@ -45,7 +45,7 @@ def get_db_connection():
     return conn
 
 
-@app.route("/api/filters", methods=["GET"])
+@app.route("/ausdevs_conversations/api/filters", methods=["GET"])
 def get_filters():
     """Get all filter options (metadata from chunks table)."""
     try:
@@ -98,7 +98,7 @@ def get_filters():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/api/chunks", methods=["GET"])
+@app.route("/ausdevs_conversations/api/chunks", methods=["GET"])
 def get_chunks():
     """Get pre-computed chunks data from cache (pure key-value lookup, no computation)."""
     try:
@@ -135,7 +135,7 @@ def get_chunks():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/api/chunk/<int:chunk_id>", methods=["GET"])
+@app.route("/ausdevs_conversations/api/chunk/<int:chunk_id>", methods=["GET"])
 def get_chunk(chunk_id):
     """Get full conversation messages and descriptions for a chunk."""
     try:
@@ -212,8 +212,8 @@ def health_check():
     return jsonify({"status": "ok"})
 
 
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
+@app.route("/ausdevs_conversations/", defaults={"path": ""})
+@app.route("/ausdevs_conversations/<path:path>")
 def serve_frontend(path):
     """Serve the React frontend, with fallback to index.html for client-side routing."""
     # If it's an API route, let it be handled by the API endpoints above

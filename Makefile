@@ -22,11 +22,14 @@ help:
 # Build Docker image
 docker-build:
 	@echo "Building Docker image: $(DOCKER_IMAGE)"
-	docker build -t $(DOCKER_IMAGE) .
+	docker build --build-arg BUILD_DATE=$$(date +%s) -t $(DOCKER_IMAGE) .
 	@echo "✓ Image built successfully"
 
 # Run Docker container locally
 docker-run: docker-build
+	@echo "Cleaning up any existing container..."
+	docker stop $(CONTAINER_NAME) 2>/dev/null || true
+	docker rm $(CONTAINER_NAME) 2>/dev/null || true
 	@echo "Starting container on port 5000..."
 	docker run -d \
 		--name $(CONTAINER_NAME) \

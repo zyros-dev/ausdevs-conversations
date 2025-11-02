@@ -45,7 +45,6 @@ display/backend/__pycache__/
 .env
 .claude/
 server.log
-*.db  # Don't ignore - we'll include it explicitly
 .dockerignore
 Dockerfile
 
