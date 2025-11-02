@@ -32,7 +32,8 @@ function App() {
   // Ensure UMAP is default method
   const [methodSet, setMethodSet] = useState(false);
 
-  const [chunks, setChunks] = useState<Chunk[]>([]);
+  const [rawChunks, setRawChunks] = useState<Chunk[]>([]);  // Full data from server
+  const [chunks, setChunks] = useState<Chunk[]>([]);        // Filtered data for display
   const [conversation, setConversation] = useState<ConversationDetail | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -81,13 +82,14 @@ function App() {
     fetchFilters();
   }, []);
 
-  // Fetch chunks when filters change
+  // Fetch chunks when vector_type or method changes
   useEffect(() => {
     const fetchChunks = async () => {
       if (!filterOptions) return;
 
       setLoading(true);
-      setChunks([]);  // Clear old data immediately
+      setRawChunks([]);  // Clear old data immediately
+      setChunks([]);
       setError(null);
       setConversation(null);
 
@@ -102,48 +104,8 @@ function App() {
           `${API_BASE}/chunks?${params}`
         );
 
-        // Client-side filtering
-        let filteredChunks = response.data.chunks;
-
-        // Filter by channel
-        if (filters.channel !== 'All Channels') {
-          filteredChunks = filteredChunks.filter(
-            chunk => chunk.channel === filters.channel
-          );
-        }
-
-        // Filter by author
-        if (filters.author !== 'All Authors') {
-          filteredChunks = filteredChunks.filter(chunk =>
-            chunk.authors.split(', ').includes(filters.author)
-          );
-        }
-
-        // Filter by cluster
-        if (filters.cluster !== 'All Clusters') {
-          // Extract cluster number from "Cluster 140 - 501 chunks" format
-          const clusterNum = parseInt(filters.cluster.match(/\d+/)?.[0] || '0', 10);
-          filteredChunks = filteredChunks.filter(chunk =>
-            chunk.cluster === clusterNum
-          );
-        }
-
-        // Filter by min_messages
-        filteredChunks = filteredChunks.filter(
-          chunk => chunk.messages >= filters.min_messages
-        );
-
-        // Filter by search text
-        if (filters.search) {
-          const searchLower = filters.search.toLowerCase();
-          filteredChunks = filteredChunks.filter(chunk =>
-            chunk.topic.toLowerCase().includes(searchLower) ||
-            chunk.technical_topic.toLowerCase().includes(searchLower) ||
-            chunk.sentiment.toLowerCase().includes(searchLower)
-          );
-        }
-
-        setChunks(filteredChunks);
+        // Store raw chunks (no filtering yet)
+        setRawChunks(response.data.chunks);
       } catch (err) {
         setError(`Failed to load chunks: ${err}`);
       } finally {
@@ -156,7 +118,52 @@ function App() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [filters.vector_type, filters.method, filters.channel, filters.author, filters.cluster, filters.min_messages, filters.search, filterOptions]);
+  }, [filters.vector_type, filters.method, filterOptions]);
+
+  // Apply client-side filtering when raw chunks or filters change
+  useEffect(() => {
+    let filteredChunks = [...rawChunks];
+
+    // Filter by channel
+    if (filters.channel !== 'All Channels') {
+      filteredChunks = filteredChunks.filter(
+        chunk => chunk.channel === filters.channel
+      );
+    }
+
+    // Filter by author
+    if (filters.author !== 'All Authors') {
+      filteredChunks = filteredChunks.filter(chunk =>
+        chunk.authors.split(', ').includes(filters.author)
+      );
+    }
+
+    // Filter by cluster
+    if (filters.cluster !== 'All Clusters') {
+      // Extract cluster number from "Cluster 140 - 501 chunks" format
+      const clusterNum = parseInt(filters.cluster.match(/\d+/)?.[0] || '0', 10);
+      filteredChunks = filteredChunks.filter(chunk =>
+        chunk.cluster === clusterNum
+      );
+    }
+
+    // Filter by min_messages
+    filteredChunks = filteredChunks.filter(
+      chunk => chunk.messages >= filters.min_messages
+    );
+
+    // Filter by search text
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      filteredChunks = filteredChunks.filter(chunk =>
+        chunk.topic.toLowerCase().includes(searchLower) ||
+        chunk.technical_topic.toLowerCase().includes(searchLower) ||
+        chunk.sentiment.toLowerCase().includes(searchLower)
+      );
+    }
+
+    setChunks(filteredChunks);
+  }, [rawChunks, filters.channel, filters.author, filters.cluster, filters.min_messages, filters.search]);
 
   // Fetch conversation when a chunk is clicked
   const handleChunkClick = useCallback(async (chunk: Chunk) => {
@@ -180,7 +187,7 @@ function App() {
       <div className="app-header">
         <div className="header-content">
           <div className="header-logo">
-            <img src="/favicon.svg" alt="AusDevs" className="logo-icon" />
+            <img src="./favicon.svg" alt="AusDevs" className="logo-icon" />
           </div>
           <Button
             type="text"

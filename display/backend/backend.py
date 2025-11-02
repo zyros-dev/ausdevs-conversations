@@ -7,6 +7,7 @@ All clustering and coloring is pre-computed by compute_data.py and stored in cac
 
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
+from flask_compress import Compress
 import sqlite3
 import json
 import hashlib
@@ -18,6 +19,7 @@ DIST_DIR = Path(__file__).parent.parent / "frontend" / "dist"
 
 app = Flask(__name__, static_folder=str(DIST_DIR), static_url_path="")
 CORS(app)
+Compress(app)  # Enable gzip compression for all responses
 
 DB_PATH = Path(__file__).parent / "conversation_data.db"
 

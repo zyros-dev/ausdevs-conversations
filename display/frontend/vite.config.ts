@@ -5,4 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/ausdevs_conversations/',
+  server: {
+    proxy: {
+      '/ausdevs_conversations/api': {
+        target: 'http://localhost:9000',
+        changeOrigin: true,
+      }
+    }
+  }
 })
