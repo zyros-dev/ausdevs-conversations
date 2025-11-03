@@ -5,7 +5,7 @@ IMAGE_NAME := ausdevs-viz
 IMAGE_TAG := latest
 DOCKER_IMAGE := $(IMAGE_NAME):$(IMAGE_TAG)
 CONTAINER_NAME := ausdevs
-REMOTE_SERVER := root@150.107.75.167
+REMOTE_SERVER := root@37.27.24.142
 REMOTE_PATH := /opt/ausdevs
 
 help:
@@ -79,7 +79,7 @@ docker-send: docker-build
 		docker image prune -f"
 	@echo "✓ Remote deployment successful!"
 	@echo ""
-	@echo "Access the app at: http://150.107.75.167:5000"
+	@echo "Access the app at: http://37.27.24.142:5000"
 	@echo ""
 	@echo "Cleaning up local tar file..."
 	rm $(IMAGE_NAME).tar.gz

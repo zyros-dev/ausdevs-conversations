@@ -29,8 +29,6 @@ function App() {
     search: '',
   });
 
-  // Ensure UMAP is default method
-  const [methodSet, setMethodSet] = useState(false);
 
   const [rawChunks, setRawChunks] = useState<Chunk[]>([]);  // Full data from server
   const [chunks, setChunks] = useState<Chunk[]>([]);        // Filtered data for display
@@ -72,7 +70,6 @@ function App() {
             ...prev,
             method: defaultMethod,
           }));
-          setMethodSet(true);
         }
       } catch (err) {
         setError(`Failed to load filter options: ${err}`);

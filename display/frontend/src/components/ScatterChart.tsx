@@ -19,7 +19,7 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstanceRef = useRef<echarts.ECharts | null>(null);
   const [showLoading, setShowLoading] = React.useState(false);
-  const loadingTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const loadingTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Only show loading after 300ms of loading state
   React.useEffect(() => {

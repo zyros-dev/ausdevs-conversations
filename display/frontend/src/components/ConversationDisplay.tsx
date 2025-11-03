@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Spin, Empty, Collapse } from 'antd';
 import type { ConversationDetail } from '../types';
 import './ConversationDisplay.css';
@@ -12,7 +12,6 @@ export const ConversationDisplay: React.FC<ConversationDisplayProps> = ({
   conversation,
   loading,
 }) => {
-  const [analysisExpanded, setAnalysisExpanded] = useState(false);
   if (loading) {
     return (
       <div className="conversation-container">
