@@ -1,0 +1,3 @@
+{
+  "extends": ["github>zyros-dev/renovate-config"]
+}
