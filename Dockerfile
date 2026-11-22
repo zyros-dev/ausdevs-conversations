@@ -31,8 +31,8 @@ RUN echo "Build date: ${BUILD_DATE}"
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install system dependencies; upgrade first so base-image packages get their security fixes
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
